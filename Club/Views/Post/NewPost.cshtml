@@ -1,0 +1,180 @@
+﻿
+
+
+@{
+    Layout = null;
+    var categorys = (List<Category>)ViewBag.Categorys;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title>6789俱乐部</title>
+    <meta http-equiv="description" content="论坛，自由讨论，开放，同城交友！" />
+    <meta http-equiv="keywords" content="BBS Chi 论坛" />
+    <meta name="author" content="Mr.Chi">
+    <meta name="copyright" content="Mr.Chi">
+    <link rel="icon" href="~/Assets/images/驰.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/Assets/images/驰.png" type="image/x-icon" />
+    <link href="/Assets/styles/bootstrap.min.css" rel="stylesheet">
+    <link href="/Assets/Plugs/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/Assets/styles/jquery.fancybox.css-v=2.1.5.css" rel="stylesheet">
+    <link href="/Assets/styles/animate.css" rel="stylesheet">
+    <link href="/Assets/styles/base.css-v=2.2.0.css" rel="stylesheet">
+    <link href="/Assets/styles/style.css" rel="stylesheet">
+    <script src="/Assets/scripts/jquery.min.js"></script>
+    <script src="/Assets/Plugs/layer/layer.js" type="text/javascript"></script>
+</head>
+<body>
+    <img src="/Assets/images/loading1.png" style="display: none" />
+    <div id="wrapper">
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 text-navy " style="font-size: 20px;"
+                           href="/">6789Club</a>
+                        <div role="search" class="navbar-form-custom" action="">
+                            <div class="form-group">
+                                <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search"
+                                       id="top-search">
+                            </div>
+                        </div>
+                    </div>
+
+                </nav>
+            </div>
+            <script>
+                var tid = 49;
+                var rpi = 0;
+                var isTt = false;
+                var aid = 0;
+            </script>
+            <style>
+                iframe {
+                    width: 300px;
+                    height: 250px;
+                }
+
+                .blockquote {
+                    display: block;
+                    border-left: 8px solid #d0e5f2;
+                    padding: 5px 10px;
+                    margin: 10px 0;
+                    line-height: 1.4;
+                    font-size: 100%;
+                    background-color: #f1f1f1;
+                }
+
+                .topic-reward i {
+                    text-decoration: underline;
+                    color: #444;
+                    font-style: normal;
+                }
+            </style>
+            <div class="row wrapper border-bottom navy-bg page-heading">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="../index.htm" tppabs="http://bbs.bangke.com/">主页</a>
+                        </li>
+                        <li>
+                            <a href="../-type=站务管理.htm" tppabs="http://bbs.bangke.com/?type=站务管理">站务管理</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="post-form" action="/post/save" method="post">
+                        <div class="wrapper wrapper-content">
+                            <div class="ibox">
+                                <div class="ibox-content">
+                                    <div class="row" style="margin: 20px 0px;">
+                                        @{
+                                            foreach (var item in categorys)
+                                            {
+                                                <span class="chooseClub btn btn-sm btn-default" style="margin-bottom: 5px;" data-cid="@item.Id">
+                                                    @item.Name
+                                                </span>
+
+                                            }
+                                        }
+                                        <input type="hidden" id="categoryId" name="categoryId" value="0" />
+                                        <input type="hidden" id="content" name="content" value="" />
+
+
+                                        <div class="space-15">
+                                        </div>
+                                        <input type="text" id="title" name="Title" placeholder="请输入标题" maxlength="50" value="" class="form-control">
+                                    </div>
+                                    <div class="row" style="margin: 0px;">
+                                        <div id="post-edit"></div>
+
+                                        <a class="more-input"><i class="fa fa-angle-double-down"></i></a>
+                                        @*<a id="post-btn" class="btn btn-sm btn-primary submit-btn" style="margin: 15px"><i class="fa fa-check "></i>提交 </a>*@
+                                        <button id="post-submit" type="submit" class="btn btn-sm btn-primary submit-btn" style="margin: 15px">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+
+            <link href="/Assets/Plugs/wangEditor/wangEditor.min.css" rel="stylesheet">
+            <script src="/Assets/Plugs/wangEditor/wangeditor.min.js" type="text/javascript"></script>
+
+            <script type="text/javascript">
+                var E = window.wangEditor;
+                var editor = new E('#post-edit');
+                editor.create();
+
+                $("#post-form").submit(function () {
+                    var content = editor.txt.html();
+                    $('#content').val(content);
+                    return true;
+                });
+                //$('#post-submit').on('click', function () {
+                //    var content = editor.txt.html();
+                //    var categoryId = $('#categoryId').val();
+                //    var title = $('#title').val();
+
+                //    //$.ajax({
+                //    //    type: "POST",
+                //    //    url: "/post/save",
+                //    //    data: "categoryId=" + categoryId + "&title=" + title + "&content=" + content,
+                //    //    success: function (msg) {
+                //    //        alert("Data Saved: " + msg);
+                //    //    }
+                //    //});
+                //});
+
+            </script>
+            <script type="text/javascript">
+                $('.chooseClub').on('click', function () {
+                    $(this).siblings('span').attr('class', 'chooseClub btn btn-sm btn-default');
+                    $(this).attr('class', 'chooseClub btn btn-sm btn-primary');
+                    var cageoryId = $(this).attr('data-cid');
+                    $('#categoryId').val(cageoryId);
+                })
+            </script>
+
+            <div class="footer">
+                <div class="pull-right mobile-hide">
+                    苏ICP备13055054号-2.
+                </div>
+                <div>
+                    Copyright &copy; 2016 江苏嬉戏谷科技有限公司
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
