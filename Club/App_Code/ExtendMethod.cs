@@ -4,7 +4,7 @@ namespace Club
 {
     public static class ExtendMethod
     {
-        public static int ToInt(this string sender)
+        public static int ToInt(this string sender,int defaultValue=0)
         {
             int result = 0;
             try
@@ -14,7 +14,7 @@ namespace Club
             }
             catch (Exception ex)
             {
-                return result;
+                return defaultValue;
 
             }
         }

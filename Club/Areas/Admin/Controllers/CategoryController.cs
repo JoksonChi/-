@@ -17,13 +17,13 @@ namespace Club.Areas.Admin.Controllers
         public ActionResult Index()
         {
             int pageSize = 10;
-            var indexStr = Request["pageIndex"];
-            if (string.IsNullOrEmpty(indexStr))
-            {
-                indexStr = "1";
-            }
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            //if (string.IsNullOrEmpty(indexStr))
+            //{
+            //    indexStr = "1";
+            //}
 
-            var pageIndex = int.Parse(indexStr);
+            //var pageIndex = int.Parse(indexStr);
 
 
             var list = new List<Category>();
@@ -47,7 +47,7 @@ namespace Club.Areas.Admin.Controllers
             var id = idStr.ToInt();
             if (id == 0)
             {
-                TempData["Msg"] = "数据不正确！";
+                ShowMsg("数据不正确!");
 
                 return RedirectToAction("Index");
             }
@@ -63,8 +63,7 @@ namespace Club.Areas.Admin.Controllers
                 }
             }
 
-            TempData["Msg"] = "删除成功！";
-
+            ShowMsg("删除成功!");
             return RedirectToAction("Index");
         }
 
@@ -90,6 +89,11 @@ namespace Club.Areas.Admin.Controllers
         {
             var id = Request["id"].ToInt();
             var name = Request["name"];
+            if (string.IsNullOrEmpty(name))
+            {
+                ShowMsg("分类名称不能为空！");
+                return RedirectToAction("Edit");
+            }
 
             using (var db = new ClubEntities())
             {

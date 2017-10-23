@@ -45,7 +45,7 @@
           <Property Name="ParentId" Type="int" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
           <Property Name="IsFeatured" Type="bit" Nullable="false" />
-          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="int" />
           <Property Name="IsAbort" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PraiseRecord">
@@ -289,7 +289,7 @@
           <Property Name="ParentId" Type="Int32" Nullable="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
           <Property Name="IsFeatured" Type="Boolean" Nullable="false" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
           <Property Name="IsAbort" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="ClubModel.FK_Post_Category" FromRole="Post" ToRole="Category" />
           <NavigationProperty Name="Collection" Relationship="ClubModel.FK_Collection_Post" FromRole="Post" ToRole="Collection" />

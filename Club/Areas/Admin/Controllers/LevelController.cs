@@ -17,13 +17,13 @@ namespace Club.Areas.Admin.Controllers
         public ActionResult Index()
         {
             int pageSize = 10;
-            var indexStr = Request["pageIndex"];
-            if (string.IsNullOrEmpty(indexStr))
-            {
-                indexStr = "1";
-            }
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            //if (string.IsNullOrEmpty(indexStr))
+            //{
+            //    indexStr = "1";
+            //}
 
-            var pageIndex = int.Parse(indexStr);
+            //var pageIndex = int.Parse(indexStr);
 
 
             var list = new List<Level>();

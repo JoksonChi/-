@@ -32,12 +32,12 @@ namespace Club.Models
         /// <summary>
         /// 是否精华帖
         /// </summary>
-        public bool Status { get; set; }
+        public string Status { get; set; }
 
         /// <summary>
-        /// 是否精华帖
+        /// 回复
         /// </summary>
-        public int ReplyCount { get; set; }
+        public int Reply{ get; set; }
 
         /// <summary>
         /// 发帖用户头像

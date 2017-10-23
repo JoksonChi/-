@@ -107,7 +107,7 @@ namespace Club.Controllers
                     postModel.UserName = item.User.Name;
                     postModel.CreateTime = item.CreateTime;
                     postModel.ViewCount = item.ViewCount;
-                    postModel.Status = item.Status;
+                    postModel.Status = item.Status.ToString();
                     postModel.UserImage = item.User.Image;
                     postList.Add(postModel);
 

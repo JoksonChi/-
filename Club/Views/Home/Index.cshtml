@@ -29,9 +29,6 @@
     <style type="text/css">
         .chi_1 {
 
-            text-align: center;
-
-
         }
     </style>
 </head>
@@ -99,7 +96,7 @@
                                 <li>
                                     <div class="fl">
                                         <a href="/Home/details"><img src="@item.UserImage" width="40" height="40" /></a> <a href="/Home/details" class="chi_m_licon_a">
-                                            <h5><p1></p1>@item.Title<p1>【@item.Status】</p1></h5>
+                                            <h5><p1></p1>@item.Title<p1>@item.Status</p1></h5>
                                             <p><font>@item.UserName</font><font>@item.CreateTime</font></p>
                                         </a>
                                     </div>
@@ -109,7 +106,7 @@
                                             <p>@item.ViewCount</p>
                                         </a><a href="/Home/details">
                                             <img src="~/Assets/images/icon_02.png" width="40" height="13" />
-                                            <p>@item.ReplyCount</p>
+                                            <p>@item.Reply</p>
                                         </a>
                                     </div>
                                 </li>
@@ -142,7 +139,10 @@
                 <div class="chi_m_r_operat"><a href="/Post/NewPost">发&nbsp;帖</a><a href="#">投&nbsp;稿</a></div>
                 <!--1-->
 
-                <div class="chi_m_r_type"><a href="#" class="on">全部</a><a href="#">亲子帮</a><a href="#">摄影帮</a><a href="#">龙城茶座</a><a href="#">站务管理</a></div>
+                <div class="chi_m_r_type"><a href="#" class="on">全部</a>
+                <a href="#">亲子帮</a><a href="#">摄影帮</a><a href="#">龙城茶座</a><a href="#">站务管理</a>
+                   
+                </div>
                 <!--1-->
 
                 <div class="chi_m_r_staty">

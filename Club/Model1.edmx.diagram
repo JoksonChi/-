@@ -5,13 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="772ec81e07674d629d0e216195a26546" Name="Diagram1">
-        <EntityTypeShape EntityType="ClubModel.Category" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="ClubModel.Collection" Width="1.5" PointX="7.5" PointY="4.5" />
-        <EntityTypeShape EntityType="ClubModel.Level" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ClubModel.Post" Width="1.5" PointX="5.25" PointY="3.625" />
-        <EntityTypeShape EntityType="ClubModel.PraiseRecord" Width="1.5" PointX="10.5" PointY="4.5" />
-        <EntityTypeShape EntityType="ClubModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="1.75" />
-        <EntityTypeShape EntityType="ClubModel.User" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="ClubModel.Category" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="ClubModel.Collection" Width="1.5" PointX="5.25" PointY="3.5" />
+        <EntityTypeShape EntityType="ClubModel.Level" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ClubModel.Post" Width="1.5" PointX="8.25" PointY="2.75" />
+        <EntityTypeShape EntityType="ClubModel.PraiseRecord" Width="1.5" PointX="10.5" PointY="3.5" />
+        <EntityTypeShape EntityType="ClubModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="ClubModel.User" Width="1.5" PointX="3" PointY="2.875" />
         <AssociationConnector Association="ClubModel.FK_Post_Category" />
         <AssociationConnector Association="ClubModel.FK_Collection_Post" />
         <AssociationConnector Association="ClubModel.FK_Collection_User" />

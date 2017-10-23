@@ -19,14 +19,15 @@ namespace Club.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            int pageSize = 10;
-            var indexStr = Request["pageIndex"];
+            int pageSize = 5;
+            var pageIndex = Request["pageIndex"].ToInt(1);
             var kw = Request["kw"];
-            if (string.IsNullOrEmpty(indexStr))
-            {
-                indexStr = "1";
-            }
-            var pageIndex = int.Parse(indexStr);
+            //if (string.IsNullOrEmpty(indexStr))
+            //{
+            //    indexStr = "1";
+            //}
+
+            //var pageIndex = int.Parse(indexStr);
             IPagedList<Post> items;
 
             using (var db = new ClubEntities())

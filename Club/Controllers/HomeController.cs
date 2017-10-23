@@ -1,6 +1,7 @@
 ﻿using Club.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -98,27 +99,37 @@ namespace Club.Controllers
                 var loginUser = (User)Session["loginUser"];
                 ViewBag.LoginUser = loginUser;
                 int pageSize = 2;
-                var indexStr = Request["pageIndex"];
-                if (string.IsNullOrEmpty(indexStr))
-                {
-                    indexStr = "1";
-                }
-                var pageIndex = int.Parse(indexStr);
-                IPagedList<Club.Models.ListPostModel> pt;
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            var kw = Request["kw"];
+            //if (string.IsNullOrEmpty(indexStr))
+            //{
+            //    indexStr = "1";
+            //}
+            //var pageIndex = int.Parse(indexStr);
+            IPagedList<Club.Models.ListPostModel> pt;
                 var cookies = new HttpCookie("User");
                 using (var db = new ClubEntities())
                 {
                 var postList = new List<ListPostModel>();
-                var list = db.Post.ToList();
+                var list = db.Post.OrderByDescending(a => a.Id).Include(a => a.User).Include(a => a.Category).Where(a => a.IsFeatured == true).ToList();
                 foreach (var item in list)
                 {
                     var postModel = new ListPostModel();
+                    var category = db.Category.Where(a => a.Id == item.Id);
                     postModel.Id = item.Id;
                     postModel.Title = item.Title;
                     postModel.UserName = item.User.Name;
                     postModel.CreateTime = item.CreateTime;
                     postModel.ViewCount = item.ViewCount;
-                    postModel.Status = item.Status;
+                    postModel.Reply = category.Count();
+                    if (item.Status==1)
+                    {
+                        postModel.Status = "【精】";
+                    }
+                    else
+                    {
+                        postModel.Status = "";
+                    }
                     postModel.UserImage = item.User.Image;
 
                     postList.Add(postModel);

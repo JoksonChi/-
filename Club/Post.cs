@@ -31,7 +31,7 @@ namespace Club
         public int ParentId { get; set; }
         public int CategoryId { get; set; }
         public bool IsFeatured { get; set; }
-        public bool Status { get; set; }
+        public Nullable<int> Status { get; set; }
         public bool IsAbort { get; set; }
     
         public virtual Category Category { get; set; }
