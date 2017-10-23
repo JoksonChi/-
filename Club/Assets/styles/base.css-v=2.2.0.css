@@ -543,12 +543,14 @@ a.load-at-reply:hover
 {
     background: #df3e3e;
 }
-.footer
-{
-    position: relative;
-    display: inline-block;
-    width: 100%;
-}
+/*.footer {
+    border: 1px solid #eee;
+    height: 40px;
+    line-height: 40px;
+    background: #fff;
+    width: 1227px;
+    padding: 0px 20px;
+}*/
 
 @media screen and (min-width: 990px)
 {
@@ -568,10 +570,6 @@ a.load-at-reply:hover
         background: rgba(255, 255, 255, 0.5);
     }
 
-    .footer
-    {
-        background: rgba(255, 255, 255, 0);
-    }
 }
 
 @media screen and (min-width: 2000px)

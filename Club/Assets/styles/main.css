@@ -148,5 +148,5 @@ body { background:#F5F8FA }
 .chi_right_2iinfo ul { padding: 20px 0px; }
 .chi_right_2iinfo ul li { display: block; float: left; width: 127px; }
 .chi_right_2iinfo ul li p { text-align: center; font-weight: bold; color: #666; height: 30px; line-height: 30px; }
-.footer { border: 1px solid #eee; height:40px; line-height:40px; background:#fff; width:1227px; margin:0px auto; padding:0px 20px; }
+.footer { border: 1px solid #eee; height:40px; line-height:40px; background:#fff; width:1227px; padding:0px 20px; margin-left:-20px;}
 .footer p { color:#666; height:40px; line-height:40px; }
