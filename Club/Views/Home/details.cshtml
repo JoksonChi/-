@@ -1,7 +1,9 @@
 ﻿
 @{
     Layout = null;
+    var currentAction = ViewContext.RouteData.Values["action"].ToString().ToLower();
 }
+@model Post
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,682 +16,227 @@
     <meta name="copyright" content="Mr.Chi">
     <link rel="icon" href="~/Assets/images/驰.png" type="image/x-icon" />
     <link rel="shortcut icon" href="~/Assets/images/驰.png" type="image/x-icon" />
-    <link href="/Assets/styles/bootstrap.min.css" rel="stylesheet">
-    <link href="/Assets/Plugs/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="/Assets/styles/jquery.fancybox.css-v=2.1.5.css" rel="stylesheet">
-    <link href="/Assets/styles/animate.css" rel="stylesheet">
-    <link href="/Assets/styles/base.css-v=2.2.0.css" rel="stylesheet">
-    <link href="/Assets/styles/style.css" rel="stylesheet">
-    <script src="/Assets/scripts/jquery.min.js"></script>
-    <script src="/Assets/Plugs/layer/layer.js" type="text/javascript"></script>
+    <link href="~/Assets/styles/main.css" rel="stylesheet" media="all" />
+    <link href="~/Assets/styles/base.css" rel="stylesheet" media="all" />
+    <link href="~/Assets/styles/font-awesome/css/font-awesome.css-v=4.3.0.css" rel="stylesheet" />
+    <link href=~/Assets/styles/jquery.fancybox.css-v =2.1.5.css" rel="stylesheet" />
+    <link href="~/Assets/styles/animate.css" rel="stylesheet" />
+    <link href="~/Assets/styles/base.css-v=2.2.0.css" rel="stylesheet" />
+    <style type="text/css" media="screen">
+        .login-main {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            margin: 0 10px;
+        }
+
+        .login {
+            width: 80%;
+            max-width: 250px;
+        }
+
+            .login .login-p {
+                margin: 12px 0;
+                display: flex;
+                justify-content: center;
+            }
+
+                .login .login-p input {
+                    width: 100%;
+                    line-height: 30px;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 4px;
+                    font-size: 13px;
+                    padding-left: 8px;
+                    font-family: "open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+                }
+
+                .login .login-p p {
+                    margin-right: 10px;
+                    width: 100%;
+                    text-align: right;
+                }
+
+                .login .login-p p1 {
+                    margin-left: 10px;
+                    width: 100%;
+                    text-align: left;
+                }
+
+        .login-p .btn {
+            width: 100%;
+            line-height: 25px;
+            margin-top: 8px;
+        }
+
+        ::-webkit-input-placeholder {
+            color: #999;
+        }
+
+        :-moz-placeholder {
+            color: #999;
+        }
+
+        :-ms-input-placeholder {
+            color: #999;
+        }
+
+        ::-moz-placeholder {
+            color: #999;
+        }
+    </style>
+    <script src="~/Assets/scripts/vendor/layer/layer.js" type="text/javascript"></script>
+    <script src="~/Assets/scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="~/Assets/scripts/js.js" type="text/javascript"></script>
 </head>
 <body>
-    <img src="/Assets/images/loading1.png" style="display: none" />
-    <div id="wrapper">
-        <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 text-navy " style="font-size: 20px;"
-                           href="/">6789Club</a>
-                        <div role="search" class="navbar-form-custom" action="">
-                            <div class="form-group">
-                                <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search"
-                                       id="top-search">
-                            </div>
+    <div class="header">
+        <div class="chi_left">
+            <a href="#">6789Club</a>
+        </div>
+        <div class="chi_right">
+
+            @{
+                var user = (User)Session["loginuser"];
+                if (user != null)
+                {
+
+                    <a href="/user/user" title="@user.Name" style="padding: 15px 5px; line-height: 30px;">
+                        <img id="my-avatar" class="img-circle profile-small-avatar" src="@user.Image" />
+                        <span class="mobile-hide">@user.Name</span>
+                    </a>
+                    <a class="dropdown-toggle" href="/Notice"><img src="/Assets/images/pic_01.gif" /></a>
+
+                                <a href="/user/login">
+                                    <img src="/Assets/images/pic_02.gif" />
+                                </a>
+
+                }
+                else
+                {
+                    <div class="user-login">
+                        <a class="btn btn-primary btn-xs" href="/user/login">
+                            登录
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+        <!--头右-->
+    </div>
+    <!--导航栏-->
+    <div class="blue-bar"><a href="#">主页</a> / <a>帖子详情</a></div>
+    <!--/header-->
+    <div class="main">
+        <div class="h_auto">
+            <div class="ux-w-94 bod-t-1 ma-t-25 max-l-3 height_auto">
+                <div class="col-lg-12  bg-c-white pa-t-20">
+                    <a href="#" class="uz-w-50 uz-h-50 left"><img class="bd-r-3" src="@Model.User.Image" width="50" height="50" /></a>
+                    <div class="ma-l-70">
+                        <div class="f-s-16">
+                            @{
+                                var essence = "";
+                                if (Model.Status == 1)
+                                {
+                                    essence = "精华贴";
+                                }
+                                else
+                                {
+                                    essence = "普通贴";
+                                }
+                                <span class="f-c-blue">@essence</span>
+                            }
+                            @Model.Title
+                        </div>
+                        <div class="ma-t-15 f-s-13">
+                            <span><a href="#" class="f-c-blue">@Model.User.Name</a></span>
+                            <span class="f-c-yellows">
+                                @{
+                                    foreach (var item in ViewBag.User)
+                                    {
+                                        if (item.id == Model.UserId)
+                                        {
+                                            <i></i><!--图标-->
+                                            @item.Level.Name;
+                                        }
+                                    }
+                                }
+                            </span>
+                            <span class="f-c-gray ma-l-15">
+                                @{
+                                    string time = Model.CreateTime.ToString();
+                                    string year = time.Substring(2, 2) + "年";
+                                    string month = time.Substring(5, 2) + "月";
+                                    string day = time.Substring(8, 2) + "日";
+                                    string hour = time.Substring(11, 5);
+                                    <i></i><!--图标-->
+                                    @year@month@day @hour
+                                }
+                            </span>
+                            <span class="f-c-gray ma-l-10">
+                                <i></i><!--图标-->
+                                @Model.SysInfo
+                            </span>
                         </div>
                     </div>
-
-                </nav>
-            </div>
-            <script>
-                var tid = 49;
-                var rpi = 0;
-                var isTt = false;
-                var aid = 0;
-            </script>
-            <style>
-                iframe {
-                    width: 300px;
-                    height: 250px;
-                }
-
-                .blockquote {
-                    display: block;
-                    border-left: 8px solid #d0e5f2;
-                    padding: 5px 10px;
-                    margin: 10px 0;
-                    line-height: 1.4;
-                    font-size: 100%;
-                    background-color: #f1f1f1;
-                }
-
-                .topic-reward i {
-                    text-decoration: underline;
-                    color: #444;
-                    font-style: normal;
-                }
-            </style>
-            <div class="row wrapper border-bottom navy-bg page-heading">
-                <div class="col-lg-12">
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="/Home/userIndex" >主页</a>
-                        </li>
-                        <li>
-                            <a href="#" >站务管理</a>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="wrapper wrapper-content">
-                        <div class="ibox">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <a href="../User/250.htm" tppabs="http://bbs.bangke.com/User/250" class="pull-left">
-                                            <img class="topic-detail-avatar"
-                                                 src="../../wx.qlogo.cn/mmopen/50HcP4UOeLXTkE2LYnmxW2zaTrl83DzC6ycQIm0jibpPPy3htr0bp3IvNsNN3AyghSBd8zPWuk2JMgRzAAUqJlw/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/50HcP4UOeLXTkE2LYnmxW2zaTrl83DzC6ycQIm0jibpPPy3htr0bp3IvNsNN3AyghSBd8zPWuk2JMgRzAAUqJlw/0" alt="">
-                                        </a>
-                                        <div class="topic-about">
-                                            <h3>
-                                                <span class="text-navy">【精】</span>
-                                                玩转帮客金币，大家一起来赚金币，金币可以当钱花~~~~
-                                                <span class="text-danger">【置顶】</span>
-                                            </h3>
-                                            <p>
-                                                <a href="../User/250.htm" tppabs="http://bbs.bangke.com/User/250">爱吃凤梨酥</a>
-                                                <span class="text-warning" style="margin-top: -20px;">
-                                                    <i class="iconfont icon-guanliyuan">
-                                                    </i>
-                                                    <span class="sm-text">帮主</span>
-                                                </span>
-                                                <span class="topic-info"><i class="fa fa-clock-o"></i>16年 6月15日 10:40</span>
-                                                <span class="topic-info"><i class="fa fa-safari"></i>Windows10</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="topic-detail col-lg-12">
-                                        <div class="content">
-                                            <p><strong>帮客金币规则新鲜出炉</strong></p>
-                                            <p>一、<span>如何赚取金币？</span></p>
-                                            <p>1、<span>出借图书（每出借一本，一周可得</span><span>100</span><span>个金币）</span></p>
-                                            <p>2、<span>上传一张照片，得</span><span>5</span><span>个金币，每被赞</span><span>1</span><span>次得</span><span>1</span><span>个金币</span></p>
-                                            <p>3、<span>照片评选得票前</span><span>10</span><span>名，</span><span>得</span><span>500</span><span>金币</span><span>（每天评选，每张照片投票时间为</span><span>24</span><span>小时）</span></p>
-                                            <p>4、<span>照片入选“每日精选”，得</span><span>5000</span><span>个金币</span></p>
-                                            <p>5<span>、论坛成功发帖得</span><span>5</span><span>个金币、回复帖子，回复者得</span><span>2</span><span>个金币，楼主得</span><span>1</span><span>个金币、被人点赞，楼主得</span><span>1</span><span>个金币</span></p>
-                                            <p>（贴子被删，楼主所得金币扣减，回复人不扣减）</p>
-                                            <p>6、<span>&nbsp;</span><span>论坛贴子被加精或置顶，得</span><span>50</span><span>个金币</span></p>
-                                            <p>
-                                                <img src="../Image/osGnuG0JHNhpY1eQ_TCLbdAthbVSBdotClSDk5hKEAHbLhfV6G2uK_m0hm5rru-WsF0667JH1qw2EVe.jpg" tppabs="http://bbs.bangke.com/Image/osGnuG0JHNhpY1eQ_TCLbdAthbVSBdotClSDk5hKEAHbLhfV6G2uK_m0hm5rru-WsF0667JH1qw2EVe"><br>
-                                            </p>
-                                            <p><span>二、</span><span>金币有什么用？</span></p>
-                                            <p>1、<span>借阅图书（每借阅一本书，一周需花费</span><span>100</span><span>个金币）</span></p>
-                                            <p>2、<span>给喜欢的图片打赏</span></p>
-                                            <p>3、<span>给喜欢的贴子打赏</span></p>
-                                            <p>4、<span>论坛内私信某人</span></p>
-                                            <p>5、<span>抵扣现金（参加活动、充话费、购物）</span></p>
-                                            <p>
-                                                <img src="../Image/k5xzjCcn5EjIg4QOVNXo7YPHjmWR6z3XyvJ6WAM_vFEEaYve6yowc6LOG6sfL-z9wTpdOaxDXQFJ_fc.jpg" tppabs="http://bbs.bangke.com/Image/k5xzjCcn5EjIg4QOVNXo7YPHjmWR6z3XyvJ6WAM_vFEEaYve6yowc6LOG6sfL-z9wTpdOaxDXQFJ_fc"><br>
-                                            </p>
-                                            <p>三、<span>金币换算</span></p>
-                                            <p>1<span>、</span><span>100</span><span>金币</span><span>=1</span><span>块钱</span></p>
-                                            <p>2<span>、可充&#20540;，可兑现</span></p>
-                                            <p>
-                                                <img src="../Image/_d6o7Dises1PQTFoVuuttxXpGoLlNh1mHpkqtK0A68ueFwNtjq74sN6GRMBibYRxn8hG9uwVM_tgMZ5.jpg" tppabs="http://bbs.bangke.com/Image/_d6o7Dises1PQTFoVuuttxXpGoLlNh1mHpkqtK0A68ueFwNtjq74sN6GRMBibYRxn8hG9uwVM_tgMZ5"><br>
-                                            </p>
-                                            <p>
-                                                <br>
-                                            </p>
-                                            <p></p>
-                                            <p><b>帮客金币规则新鲜出炉，请往下看↓<span>↓</span><span>↓</span></b></p>
-                                            <p></p>
-                                            <p>
-                                                <img src="../Image/N-eiPzHK2CDDJ3Y32elsjSlffKTvtdyUchOre1UPwJa4DieeIutSbvwcsRe4QAJ4rS2U46hq1nDWv1.jpg" tppabs="http://bbs.bangke.com/Image/N-eiPzHK2CDDJ3Y32elsjSlffKTvtdyUchOre1UPwJa4DieeIutSbvwcsRe4QAJ4rS2U46hq1nDWv1"><br>
-                                            </p>
-                                            <p>
-                                                <br>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="topic-praise">
-                                        <span class="p-tips">以下用户赞了本帖</span>
-                                        <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6" class="praise-user">
-                                            <img alt="image" class="img-circle" src="../../wx.qlogo.cn/mmopen/50HcP4UOeLVIt7h6Iy1JU299DZE9hYOX1SlTqgTO9NZ1I1e0n4RyxDj3PyhXZANYZEiatwOtn9couZYkyw273eQ/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/50HcP4UOeLVIt7h6Iy1JU299DZE9hYOX1SlTqgTO9NZ1I1e0n4RyxDj3PyhXZANYZEiatwOtn9couZYkyw273eQ/0">
-                                        </a>
-                                        <a href="../User/413.htm" tppabs="http://bbs.bangke.com/User/413" class="praise-user">
-                                            <img alt="image" class="img-circle" src="../../wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oOBPUzxvSBiaDyx1IwCCPIBHqvnciaPT6fOTV78ibhqt0JIUxpkicCzia8dKXRb3147iaBibowHAHEjkWXm/0.png" tppabs="http://wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oOBPUzxvSBiaDyx1IwCCPIBHqvnciaPT6fOTV78ibhqt0JIUxpkicCzia8dKXRb3147iaBibowHAHEjkWXm/0">
-                                        </a>
-                                        <a href="../User/477.htm" tppabs="http://bbs.bangke.com/User/477" class="praise-user">
-                                            <img alt="image" class="img-circle" src="../../wx.qlogo.cn/mmopen/UmBhP9taQdLFg8spQJ8k7FU3DB8ae0xSn3tlsM50SnFfK6JzscdYJG5wicVCbP2uHJNH1iaVocYcIA0DXHSBwAtx1AZm3eoUiam/0.png" tppabs="http://wx.qlogo.cn/mmopen/UmBhP9taQdLFg8spQJ8k7FU3DB8ae0xSn3tlsM50SnFfK6JzscdYJG5wicVCbP2uHJNH1iaVocYcIA0DXHSBwAtx1AZm3eoUiam/0">
-                                        </a>
-                                        <a href="../User/695.htm" tppabs="http://bbs.bangke.com/User/695" class="praise-user">
-                                            <img alt="image" class="img-circle" src="../../wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oP6qDvCs9EZC7hk81PNqCurkVqXBmPUpONIxm1q3icWTlvLywsNdyxibGXKYkkZhic1SyzjhatUFCuZ/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oP6qDvCs9EZC7hk81PNqCurkVqXBmPUpONIxm1q3icWTlvLywsNdyxibGXKYkkZhic1SyzjhatUFCuZ/0">
-                                        </a>
-                                        <a href="../User/747.htm" tppabs="http://bbs.bangke.com/User/747" class="praise-user">
-                                            <img alt="image" class="img-circle" src="../../wx.qlogo.cn/mmopen/xTFa1fvvOjqSh3ex3ZXjbicUby6MvDAgc9rryP45OUZYCFGe61PicDvQeL2P3tKoiboN9TxPgylN3fjSHBPYwO4KVOfOLpkia8Sx/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/xTFa1fvvOjqSh3ex3ZXjbicUby6MvDAgc9rryP45OUZYCFGe61PicDvQeL2P3tKoiboN9TxPgylN3fjSHBPYwO4KVOfOLpkia8Sx/0">
-                                        </a>
-                                        <div class="clear clear-fix">
-                                        </div>
-                                    </div>
-                                    <div class="topic-reward" style="">
-                                        <p>
-                                            <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6">承志</a>
-                                            &nbsp; <small>16年 7月6日 18:36</small> &nbsp;打赏了 <strong>1</strong>
-                                            金币 <i>好贴要支持~</i>
-                                        </p>
-                                    </div>
+                    <!--内容-->
+                    <div class="bg-c-white ma-t-30">
+                        @Html.Raw(Model.Details.ToString())
+                    </div>
+                    <!--赞帖-->
+                    @using (Html.BeginForm("Browse", "Post", FormMethod.Get))
+                    {
+                        var praiserecord = ViewData["praiserecord"];
+                        <div id="praisearticles">
+                            @Html.Partial("_PraiseRecord", praiserecord)
+                        </div>
+                        if (Session["loginuser"] != null)
+                        {
+                            <div class="topic-option">
+                                <div class="pull-right">
+                                    <a class="praise record">点赞</a>
+                                    <a class="praise collection">收藏</a>
+                                    <a class="do-reward btn btn-sm btn-success" data-pid="0">
+                                        <i class="fa fa-database"></i>&nbsp;打赏
+                                    </a>
+                                    <a class="do-reply btn btn-sm btn-primary" data-pid="0">
+                                        <i class="fa fa-pencil"></i>
+                                        &nbsp;回复
+                                    </a>
                                 </div>
-                                <div class="row">
-                                    <div class="reply-list">
-                                        <div class="feed-activity-list">
-                                            <style>
-                                                .reply-avatar {
-                                                    width: 24px;
-                                                    height: 24px;
-                                                }
-
-                                                .well .reply-avatar {
-                                                    width: 20px;
-                                                    height: 20px;
-                                                }
-                                            </style>
-                                            <div class="feed-element" pid="341">
-                                                <a href="../User/9.htm" tppabs="http://bbs.bangke.com/User/9" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/PiajxSqBRaEKERiaM80zg5c8SZic0ia4gWpuWsR1ZXF3XNzyFmjw64GE2eBDKWiam3AXbehics7nJOJdb4R19l2IeYzQ/0.png" tppabs="http://wx.qlogo.cn/mmopen/PiajxSqBRaEKERiaM80zg5c8SZic0ia4gWpuWsR1ZXF3XNzyFmjw64GE2eBDKWiam3AXbehics7nJOJdb4R19l2IeYzQ/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 6月17日 09:01</small> <a href="../User/9.htm" tppabs="http://bbs.bangke.com/User/9">
-                                                        <strong>9姐</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-guanliyuan" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">9姐</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>发贴挣钱去喽<img src="../app/views/emoji/13.gif" tppabs="http://bbs.bangke.com/app/views/emoji/13.gif"></p>
-                                                        <p>
-                                                            <br>
-                                                        </p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="341">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="347">
-                                                <a href="../User/9.htm" tppabs="http://bbs.bangke.com/User/9" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/PiajxSqBRaEKERiaM80zg5c8SZic0ia4gWpuWsR1ZXF3XNzyFmjw64GE2eBDKWiam3AXbehics7nJOJdb4R19l2IeYzQ/0.png" tppabs="http://wx.qlogo.cn/mmopen/PiajxSqBRaEKERiaM80zg5c8SZic0ia4gWpuWsR1ZXF3XNzyFmjw64GE2eBDKWiam3AXbehics7nJOJdb4R19l2IeYzQ/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 6月17日 10:33</small> <a href="../User/9.htm" tppabs="http://bbs.bangke.com/User/9">
-                                                        <strong>9姐</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-guanliyuan" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">9姐</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>已读，我也来挣两个金币！<img src="../app/views/emoji/13.gif" tppabs="http://bbs.bangke.com/app/views/emoji/13.gif"></p>
-                                                        <p>
-                                                            <br>
-                                                        </p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="347">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="740">
-                                                <a href="../User/9.htm" tppabs="http://bbs.bangke.com/User/9" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/PiajxSqBRaEKERiaM80zg5c8SZic0ia4gWpuWsR1ZXF3XNzyFmjw64GE2eBDKWiam3AXbehics7nJOJdb4R19l2IeYzQ/0.png" tppabs="http://wx.qlogo.cn/mmopen/PiajxSqBRaEKERiaM80zg5c8SZic0ia4gWpuWsR1ZXF3XNzyFmjw64GE2eBDKWiam3AXbehics7nJOJdb4R19l2IeYzQ/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 7月6日 16:22</small> <a href="../User/9.htm" tppabs="http://bbs.bangke.com/User/9">
-                                                        <strong>9姐</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-guanliyuan" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">9姐</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>刚报了一个做披萨的活动，把我这段时间挣的金币都花完了，我要努力挣钱！！！<img src="../app/views/emoji/13.gif" tppabs="http://bbs.bangke.com/app/views/emoji/13.gif"><img src="../app/views/emoji/13.gif" tppabs="http://bbs.bangke.com/app/views/emoji/13.gif"></p>
-                                                        <p>
-                                                            <br>
-                                                        </p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="740">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="918">
-                                                <a href="../User/309.htm" tppabs="http://bbs.bangke.com/User/309" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/PiajxSqBRaELYs13Bibap8lUvUt0jM9oMs17SgwwnqN86VTVAqYL39OicHDHTys9uGP9GGichDy6JzlkhcsbaeEFiaQ/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/PiajxSqBRaELYs13Bibap8lUvUt0jM9oMs17SgwwnqN86VTVAqYL39OicHDHTys9uGP9GGichDy6JzlkhcsbaeEFiaQ/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 7月14日 17:30</small> <a href="../User/309.htm" tppabs="http://bbs.bangke.com/User/309">
-                                                        <strong>执着</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">俱乐部会员</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>
-                                                            <img src="../app/views/emoji/3.gif" tppabs="http://bbs.bangke.com/app/views/emoji/3.gif">哇，来这里逛逛，还能挣钱啊！<br>
-                                                        </p>
-                                                        <p>
-                                                            <br>
-                                                        </p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="918">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="1014">
-                                                <a href="../User/413.htm" tppabs="http://bbs.bangke.com/User/413" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oOBPUzxvSBiaDyx1IwCCPIBHqvnciaPT6fOTV78ibhqt0JIUxpkicCzia8dKXRb3147iaBibowHAHEjkWXm/0.png" tppabs="http://wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oOBPUzxvSBiaDyx1IwCCPIBHqvnciaPT6fOTV78ibhqt0JIUxpkicCzia8dKXRb3147iaBibowHAHEjkWXm/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 7月21日 12:35</small> <a href="../User/413.htm" tppabs="http://bbs.bangke.com/User/413">
-                                                        <strong>莫、</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">普通用户</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>终于知道金币有点啥用了<img src="app/views/emoji/27.gif" tppabs="http://bbs.bangke.com/app/views/emoji/27.gif"></p>
-                                                        <p>
-                                                            <br>
-                                                        </p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1014">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                    <div style="clear: both">
-                                                    </div>
-                                                    <a class="load-at-reply">
-                                                        <div class="well">
-                                                            <div class="feed-element" pid="1203">
-                                                                <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6" class="pull-left">
-                                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/50HcP4UOeLVIt7h6Iy1JU299DZE9hYOX1SlTqgTO9NZ1I1e0n4RyxDj3PyhXZANYZEiatwOtn9couZYkyw273eQ/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/50HcP4UOeLVIt7h6Iy1JU299DZE9hYOX1SlTqgTO9NZ1I1e0n4RyxDj3PyhXZANYZEiatwOtn9couZYkyw273eQ/0">
-                                                                </a>
-                                                                <div class="media-body reply-info">
-                                                                    <small class="pull-right">16年 7月31日 14:53</small> <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6">
-                                                                        <strong>承志</strong>
-                                                                    </a>
-                                                                    <span class="text-warning">
-                                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                                        </i>
-                                                                        <span class="sm-text">大侠</span>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="topic-detail">
-                                                                    <div class="content">
-                                                                        <p>能充话费，参加活动，薅羊毛，或者直接转账给我<img src="app/views/emoji/5.gif" tppabs="http://bbs.bangke.com/app/views/emoji/5.gif"></p>
-                                                                        <p>
-                                                                            <br>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1203">
-                                                                            <i class="fa fa-reply">
-                                                                            </i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="1051">
-                                                <a href="../User/477.htm" tppabs="http://bbs.bangke.com/User/477" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/UmBhP9taQdLFg8spQJ8k7FU3DB8ae0xSn3tlsM50SnFfK6JzscdYJG5wicVCbP2uHJNH1iaVocYcIA0DXHSBwAtx1AZm3eoUiam/0.png" tppabs="http://wx.qlogo.cn/mmopen/UmBhP9taQdLFg8spQJ8k7FU3DB8ae0xSn3tlsM50SnFfK6JzscdYJG5wicVCbP2uHJNH1iaVocYcIA0DXHSBwAtx1AZm3eoUiam/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 7月24日 22:21</small> <a href="../User/477.htm" tppabs="http://bbs.bangke.com/User/477">
-                                                        <strong>爱的年纪</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">俱乐部会员</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>来挣点零花钱<img src="../app/views/emoji/13.gif" tppabs="http://bbs.bangke.com/app/views/emoji/13.gif"></p>
-                                                        <p>
-                                                            <br>
-                                                        </p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1051">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="1200">
-                                                <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/5qF20w44scqhfsQKm3OS05lXqsEl0xYCHU5LyHLCHx2gVDLpBURL4w60afV0mVriceXeg9GwDoD1R6mwCiawBU3StmdMSptJWs/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/5qF20w44scqhfsQKm3OS05lXqsEl0xYCHU5LyHLCHx2gVDLpBURL4w60afV0mVriceXeg9GwDoD1R6mwCiawBU3StmdMSptJWs/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 7月31日 14:42</small> <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302">
-                                                        <strong>红</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">俱乐部会员</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>在哪充&#20540;啊</p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1200">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                    <div style="clear: both">
-                                                    </div>
-                                                    <a class="load-at-reply">
-                                                        <div class="well">
-                                                            <div class="feed-element" pid="1202">
-                                                                <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6" class="pull-left">
-                                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/50HcP4UOeLVIt7h6Iy1JU299DZE9hYOX1SlTqgTO9NZ1I1e0n4RyxDj3PyhXZANYZEiatwOtn9couZYkyw273eQ/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/50HcP4UOeLVIt7h6Iy1JU299DZE9hYOX1SlTqgTO9NZ1I1e0n4RyxDj3PyhXZANYZEiatwOtn9couZYkyw273eQ/0">
-                                                                </a>
-                                                                <div class="media-body reply-info">
-                                                                    <small class="pull-right">16年 7月31日 14:51</small> <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6">
-                                                                        <strong>承志</strong>
-                                                                    </a>
-                                                                    <span class="text-warning">
-                                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                                        </i>
-                                                                        <span class="sm-text">大侠</span>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="topic-detail">
-                                                                    <div class="content">
-                                                                        <p>点右上角头像<img src="app/views/emoji/13.gif" tppabs="http://bbs.bangke.com/app/views/emoji/13.gif">&nbsp;在里面可以充</p>
-                                                                        <p>
-                                                                            <br>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1202">
-                                                                            <i class="fa fa-reply">
-                                                                            </i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="feed-element" pid="1205">
-                                                                <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302" class="pull-left">
-                                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/5qF20w44scqhfsQKm3OS05lXqsEl0xYCHU5LyHLCHx2gVDLpBURL4w60afV0mVriceXeg9GwDoD1R6mwCiawBU3StmdMSptJWs/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/5qF20w44scqhfsQKm3OS05lXqsEl0xYCHU5LyHLCHx2gVDLpBURL4w60afV0mVriceXeg9GwDoD1R6mwCiawBU3StmdMSptJWs/0">
-                                                                </a>
-                                                                <div class="media-body reply-info">
-                                                                    <small class="pull-right">16年 7月31日 14:55</small> <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302">
-                                                                        <strong>红</strong>
-                                                                    </a>
-                                                                    <span class="text-warning">
-                                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                                        </i>
-                                                                        <span class="sm-text">俱乐部会员</span>
-                                                                    </span>
-                                                                    回复: <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6">承志</a>
-                                                                </div>
-                                                                <div class="topic-detail">
-                                                                    <div class="content">
-                                                                        <p>谢谢</p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1205">
-                                                                            <i class="fa fa-reply">
-                                                                            </i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="feed-element" pid="1206">
-                                                                <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6" class="pull-left">
-                                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/50HcP4UOeLVIt7h6Iy1JU299DZE9hYOX1SlTqgTO9NZ1I1e0n4RyxDj3PyhXZANYZEiatwOtn9couZYkyw273eQ/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/50HcP4UOeLVIt7h6Iy1JU299DZE9hYOX1SlTqgTO9NZ1I1e0n4RyxDj3PyhXZANYZEiatwOtn9couZYkyw273eQ/0">
-                                                                </a>
-                                                                <div class="media-body reply-info">
-                                                                    <small class="pull-right">16年 7月31日 14:56</small> <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6">
-                                                                        <strong>承志</strong>
-                                                                    </a>
-                                                                    <span class="text-warning">
-                                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                                        </i>
-                                                                        <span class="sm-text">大侠</span>
-                                                                    </span>
-                                                                    回复: <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302">红</a>
-                                                                </div>
-                                                                <div class="topic-detail">
-                                                                    <div class="content">
-                                                                        <p>您客气~<img src="app/views/emoji/13.gif" tppabs="http://bbs.bangke.com/app/views/emoji/13.gif"></p>
-                                                                        <p>
-                                                                            <br>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1206">
-                                                                            <i class="fa fa-reply">
-                                                                            </i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="feed-element" pid="1207">
-                                                                <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302" class="pull-left">
-                                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/5qF20w44scqhfsQKm3OS05lXqsEl0xYCHU5LyHLCHx2gVDLpBURL4w60afV0mVriceXeg9GwDoD1R6mwCiawBU3StmdMSptJWs/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/5qF20w44scqhfsQKm3OS05lXqsEl0xYCHU5LyHLCHx2gVDLpBURL4w60afV0mVriceXeg9GwDoD1R6mwCiawBU3StmdMSptJWs/0">
-                                                                </a>
-                                                                <div class="media-body reply-info">
-                                                                    <small class="pull-right">16年 7月31日 14:57</small> <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302">
-                                                                        <strong>红</strong>
-                                                                    </a>
-                                                                    <span class="text-warning">
-                                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                                        </i>
-                                                                        <span class="sm-text">俱乐部会员</span>
-                                                                    </span>
-                                                                    回复: <a href="../User/6.htm" tppabs="http://bbs.bangke.com/User/6">承志</a>
-                                                                </div>
-                                                                <div class="topic-detail">
-                                                                    <div class="content">
-                                                                        <p>汉😄</p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1207">
-                                                                            <i class="fa fa-reply">
-                                                                            </i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="1204">
-                                                <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/5qF20w44scqhfsQKm3OS05lXqsEl0xYCHU5LyHLCHx2gVDLpBURL4w60afV0mVriceXeg9GwDoD1R6mwCiawBU3StmdMSptJWs/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/5qF20w44scqhfsQKm3OS05lXqsEl0xYCHU5LyHLCHx2gVDLpBURL4w60afV0mVriceXeg9GwDoD1R6mwCiawBU3StmdMSptJWs/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 7月31日 14:55</small> <a href="../User/302.htm" tppabs="http://bbs.bangke.com/User/302">
-                                                        <strong>红</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">俱乐部会员</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>谢谢</p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1204">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="1456">
-                                                <a href="../User/695.htm" tppabs="http://bbs.bangke.com/User/695" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oP6qDvCs9EZC7hk81PNqCurkVqXBmPUpONIxm1q3icWTlvLywsNdyxibGXKYkkZhic1SyzjhatUFCuZ/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oP6qDvCs9EZC7hk81PNqCurkVqXBmPUpONIxm1q3icWTlvLywsNdyxibGXKYkkZhic1SyzjhatUFCuZ/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 8月28日 13:44</small> <a href="../User/695.htm" tppabs="http://bbs.bangke.com/User/695">
-                                                        <strong>           华哥</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">普通用户</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>好像很有道理的样子</p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1456">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="1462">
-                                                <a href="../User/498.htm" tppabs="http://bbs.bangke.com/User/498" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/OoF4KqewkFf7YjbAibOppq8cYAmGT4RmGUCGTQdNELTvoL7Kqcgs6bxsd4icAGm5bz4mVHp4JVUgQwmNAy0E3FPCia3PW9RkCXc/0.png" tppabs="http://wx.qlogo.cn/mmopen/OoF4KqewkFf7YjbAibOppq8cYAmGT4RmGUCGTQdNELTvoL7Kqcgs6bxsd4icAGm5bz4mVHp4JVUgQwmNAy0E3FPCia3PW9RkCXc/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 8月30日 10:55</small> <a href="../User/498.htm" tppabs="http://bbs.bangke.com/User/498">
-                                                        <strong>娜娜</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">俱乐部会员</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>好厉害的样子哟&#58389;&nbsp;</p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1462">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="feed-element" pid="1464">
-                                                <a href="../User/695.htm" tppabs="http://bbs.bangke.com/User/695" class="pull-left">
-                                                    <img alt="image" class="reply-avatar" src="../../wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oP6qDvCs9EZC7hk81PNqCurkVqXBmPUpONIxm1q3icWTlvLywsNdyxibGXKYkkZhic1SyzjhatUFCuZ/0.jpg" tppabs="http://wx.qlogo.cn/mmopen/xTFa1fvvOjpqsWg5MRk6oP6qDvCs9EZC7hk81PNqCurkVqXBmPUpONIxm1q3icWTlvLywsNdyxibGXKYkkZhic1SyzjhatUFCuZ/0">
-                                                </a>
-                                                <div class="media-body reply-info">
-                                                    <small class="pull-right">16年 8月31日 11:08</small> <a href="../User/695.htm" tppabs="http://bbs.bangke.com/User/695">
-                                                        <strong>           华哥</strong>
-                                                    </a>
-                                                    <span class="text-warning">
-                                                        <i class="iconfont icon-vdengji" style="font-size: 12px;">
-                                                        </i>
-                                                        <span class="sm-text">普通用户</span>
-                                                    </span>
-                                                    <br>
-                                                </div>
-                                                <div class="topic-detail">
-                                                    <div class="content">
-                                                        <p>以后话费不用愁了&#55356;�</p>
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a class="do-reply btn btn-xs btn-white" data-pid="1464">
-                                                            <i class="fa fa-reply">
-                                                            </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style="padding: 30px; text-align: center; color: #999;">
-                                        <a onclick="$('.user-login .btn-primary').click()">登录</a>后可回复
-                                    </div>
+                                <div class="clearfix">
                                 </div>
                             </div>
+                        }
+
+                    <!--用户评论-->
+                        var reply = ViewData["reply"];
+                        <div id="articles">
+                            @Html.Partial("_Comment", reply)
                         </div>
-                    </div>
+                    }
+                    <!--评论-->
+                    @{
+                        if (Session["loginuser"] != null)
+                        {
+                            <div class="row" style="margin: 0px;">
+                                <div id="post-edit"></div>
+                                <button id="post-submit" type="submit" class="btn btn-sm btn-primary submit-btn ux-w-100" style="margin-top:15px;">提交</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="bod-t-1 ux-w-100 pa-t-15 ma-b-30 text-center pa-t-45 pa-b-60">
+                                <span><a href="/User/Login">登陆</a>后可回复</span>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
-            <link href="Assets/Wangeditor-2.1.13/css/wangEditor.min.css" rel="stylesheet">
-            <script src="Assets/Wangeditor-2.1.13/js/wangeditor.min.js" type="text/javascript"></script>
-            <script src="Assets/plupload/plupload.full.min.js"></script>
-            <script type="text/javascript" src="resource/Script__5931B35C33207CED"></script>
-            <div class="footer">
-                <div class="pull-right mobile-hide">
-                    苏ICP备13055054号-2.
-                </div>
-                <div>
-                    Copyright &copy; 2016 江苏嬉戏谷科技有限公司
-                </div>
-            </div>
+        </div>
+        <div class="footer">
+            <p class="fl">Copyright © 2016 江苏嬉戏谷科技有限公司</p>
+            <p class="fr">苏ICP备13055054号-2.</p>
         </div>
     </div>
 </body>

@@ -30,6 +30,8 @@
     <script src="~/Assets/scripts/js.js" type="text/javascript"></script>
 </head>
 <body>
+@{ 
+    var user = (User)Session["loginuser"];
     <div class="header">
         <div class="chi_left">
             <a href="#">6789Club</a>
@@ -38,41 +40,22 @@
                 <!--头左-->
             </div>
         </div>
+
         <div class="chi_right">
-
-            @{
-                if (loginUser != null)
-                {
-
-                    <a href="#" title="@loginUser.Name" style="padding: 15px 5px; line-height: 30px;">
-                        <img alt="image" id="my-avatar" class="img-circle profile-small-avatar" src="/Assets/images/userphoto.jpg" />
-                        <span class="mobile-hide">@loginUser.Name</span>
+                    <a href="#" title="@user.Name" style="padding: 15px 5px; line-height: 30px;">
+                        <img id="my-avatar" class="img-circle profile-small-avatar" src="@user.Image"  />
+                        <span class="mobile-hide">@user.Name</span>
                     </a>
                                 <a class="dropdown-toggle" href="/Notice"><img src="/Assets/images/pic_01.gif" /></a>
 
                                 <a href="/user/login">
                                     <img src="/Assets/images/pic_02.gif" />
                                 </a>
-
-                }
-                else
-                {
-                    <div class="user-login">
-                        <a class="btn btn-primary btn-xs" href="/user/login">
-                            登录
-                        </a>
-
-                    </div>
-                }
-
-            }
-
-
         </div>
 
     </div>
     <!--/header-->
-    <div class="chi_nav"><a href="/Home/userIndex">主页</a>/<a href="#">用户资料</a></div>
+    <div class="chi_nav"><a href="/Home/Index">主页</a>/<a href="#">用户资料</a></div>
     <div class="main">
         <div class="h_auto">
             <div class="chi_left_2">
@@ -90,17 +73,17 @@
             <div class="chi_right_2">
                 <div class="chi_right_2t">用户资料 </div>
                 <div class="chi_right_2c">
-                    <div class="img"><img src="~/Assets/images/userphoto.jpg" height="100" width="100" /></div>
+                    <div class="img"><img src="@user.Image" height="100" width="100" /></div>
                 </div>
-                @{ 
+                
                 <div class="chi_right_2user">
-                    <h4>@loginUser.Name</h4>
-                    <p><b>0</b>金币<a href="#" class="btn_01">充金币</a><a href="#" class="btn_02">充话费</a></p>
+                    <h4>@user.Name</h4>
+                    <p><b>@user.integral</b>金币<a href="#" class="btn_01">充金币</a><a href="#" class="btn_02">充话费</a></p>
                 </div>
                 <div class="chi_right_2iinfo">
                     <ul>
                         <li>
-                            <p>0</p>
+                            <p>12</p>
                             <p>帖子</p>
                         </li>
                         <li>
@@ -113,12 +96,12 @@
                         </li>
                     </ul>
                 </div>
-      }
+
             </div>
         </div>
     </div>
     <!--/main-->
-
+}
     <div class="footer">
         <p class="fl">Copyright © 2016 江苏嬉戏谷科技有限公司</p>
         <p class="fr">苏ICP备13055054号-2.</p>

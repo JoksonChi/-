@@ -42,7 +42,7 @@
           <Property Name="SysInfo" Type="nvarchar" MaxLength="50" />
           <Property Name="Details" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ViewCount" Type="int" Nullable="false" />
-          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="ReplyCount" Type="int" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
           <Property Name="IsFeatured" Type="bit" Nullable="false" />
           <Property Name="Status" Type="int" />
@@ -57,6 +57,16 @@
           <Property Name="PostId" Type="int" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="IsAbort" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reply">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Contents" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ResponseTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -155,6 +165,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Reply_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="1" />
+          <End Role="Reply" Type="Self.Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reply_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Reply" Type="Self.Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Level">
           <End Role="Level" Type="Self.Level" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -173,6 +207,7 @@
           <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PraiseRecord" EntityType="Self.PraiseRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reply" EntityType="Self.Reply" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Collection_Post" Association="Self.FK_Collection_Post">
@@ -199,6 +234,14 @@
             <End Role="User" EntitySet="User" />
             <End Role="PraiseRecord" EntitySet="PraiseRecord" />
           </AssociationSet>
+          <AssociationSet Name="FK_Reply_Post" Association="Self.FK_Reply_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reply_User" Association="Self.FK_Reply_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_Level" Association="Self.FK_User_Level">
             <End Role="Level" EntitySet="Level" />
             <End Role="User" EntitySet="User" />
@@ -214,6 +257,7 @@
           <EntitySet Name="Level" EntityType="ClubModel.Level" />
           <EntitySet Name="Post" EntityType="ClubModel.Post" />
           <EntitySet Name="PraiseRecord" EntityType="ClubModel.PraiseRecord" />
+          <EntitySet Name="Reply" EntityType="ClubModel.Reply" />
           <EntitySet Name="sysdiagrams" EntityType="ClubModel.sysdiagrams" />
           <EntitySet Name="User" EntityType="ClubModel.User" />
           <AssociationSet Name="FK_Post_Category" Association="ClubModel.FK_Post_Category">
@@ -240,9 +284,17 @@
             <End Role="Post" EntitySet="Post" />
             <End Role="PraiseRecord" EntitySet="PraiseRecord" />
           </AssociationSet>
+          <AssociationSet Name="FK_Reply_Post" Association="ClubModel.FK_Reply_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
           <AssociationSet Name="FK_PraiseRecord_User" Association="ClubModel.FK_PraiseRecord_User">
             <End Role="User" EntitySet="User" />
             <End Role="PraiseRecord" EntitySet="PraiseRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reply_User" Association="ClubModel.FK_Reply_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Reply" EntitySet="Reply" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
@@ -286,7 +338,7 @@
           <Property Name="SysInfo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ViewCount" Type="Int32" Nullable="false" />
-          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="ReplyCount" Type="Int32" Nullable="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
           <Property Name="IsFeatured" Type="Boolean" Nullable="false" />
           <Property Name="Status" Type="Int32" />
@@ -295,6 +347,7 @@
           <NavigationProperty Name="Collection" Relationship="ClubModel.FK_Collection_Post" FromRole="Post" ToRole="Collection" />
           <NavigationProperty Name="User" Relationship="ClubModel.FK_Post_User" FromRole="Post" ToRole="User" />
           <NavigationProperty Name="PraiseRecord" Relationship="ClubModel.FK_PraiseRecord_Post" FromRole="Post" ToRole="PraiseRecord" />
+          <NavigationProperty Name="Reply" Relationship="ClubModel.FK_Reply_Post" FromRole="Post" ToRole="Reply" />
         </EntityType>
         <EntityType Name="PraiseRecord">
           <Key>
@@ -307,6 +360,18 @@
           <Property Name="IsAbort" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Post" Relationship="ClubModel.FK_PraiseRecord_Post" FromRole="PraiseRecord" ToRole="Post" />
           <NavigationProperty Name="User" Relationship="ClubModel.FK_PraiseRecord_User" FromRole="PraiseRecord" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Reply">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Contents" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Post" Relationship="ClubModel.FK_Reply_Post" FromRole="Reply" ToRole="Post" />
+          <NavigationProperty Name="User" Relationship="ClubModel.FK_Reply_User" FromRole="Reply" ToRole="User" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -336,6 +401,7 @@
           <NavigationProperty Name="Level" Relationship="ClubModel.FK_User_Level" FromRole="User" ToRole="Level" />
           <NavigationProperty Name="Post" Relationship="ClubModel.FK_Post_User" FromRole="User" ToRole="Post" />
           <NavigationProperty Name="PraiseRecord" Relationship="ClubModel.FK_PraiseRecord_User" FromRole="User" ToRole="PraiseRecord" />
+          <NavigationProperty Name="Reply" Relationship="ClubModel.FK_Reply_User" FromRole="User" ToRole="Reply" />
         </EntityType>
         <Association Name="FK_Post_Category">
           <End Type="ClubModel.Category" Role="Category" Multiplicity="1" />
@@ -409,6 +475,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Reply_Post">
+          <End Type="ClubModel.Post" Role="Post" Multiplicity="1" />
+          <End Type="ClubModel.Reply" Role="Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PraiseRecord_User">
           <End Type="ClubModel.User" Role="User" Multiplicity="1" />
           <End Type="ClubModel.PraiseRecord" Role="PraiseRecord" Multiplicity="*" />
@@ -417,6 +495,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="PraiseRecord">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reply_User">
+          <End Type="ClubModel.User" Role="User" Multiplicity="1" />
+          <End Type="ClubModel.Reply" Role="Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reply">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -463,7 +553,7 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ReplyCount" ColumnName="ReplyCount" />
                 <ScalarProperty Name="ViewCount" ColumnName="ViewCount" />
                 <ScalarProperty Name="Details" ColumnName="Details" />
                 <ScalarProperty Name="SysInfo" ColumnName="SysInfo" />
@@ -481,6 +571,17 @@
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="PostId" ColumnName="PostId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reply">
+            <EntityTypeMapping TypeName="ClubModel.Reply">
+              <MappingFragment StoreEntitySet="Reply">
+                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
