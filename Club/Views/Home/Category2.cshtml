@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Category1";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    var loginUser = (User)ViewBag.LoginUser;
+}
+@using Webdiyer.WebControls.Mvc;
+@model IPagedList<Club.Models.ListPostModel>
+<div class="chi_m_licon">
+    @{
+        foreach (var item in Model)
+        {
+            <ul>
+                <li>
+                    <div class="fl">
+                        <a href="/post/contents?Id=@item.Id"><img src="@item.UserImage" width="40" height="40" /></a> <a href="/post/contents?Id=@item.Id" class="chi_m_licon_a">
+                            <h5><p1></p1>@item.Title<p1>@item.Status</p1></h5>
+                            <p><font>@item.UserName</font><font>@item.CreateTime</font></p>
+                        </a>
+                    </div>
+                    <div class="fr">
+                        <a href="/post/contents?Id=@item.Id">
+                            <img src="~/Assets/images/icon_01.png" width="40" height="13" />
+                            <p>@item.ViewCount</p>
+                        </a><a href="/post/contents?Id=@item.Id">
+                            <img src="~/Assets/images/icon_02.png" width="40" height="13" />
+                            <p>@item.PostReply</p>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        }
+    }
+</div>
+@Html.Pager(Model, new PagerOptions()
+{
+    ContainerTagName = "ul", //分页标签
+    CssClass = "pagination", //分页样式
+    PagerItemTemplate = "<li class=\"paginate_button\">{0}</li>",
+    CurrentPagerItemTemplate = "<li class=\"paginate_button active\"><a href='#'>{0}</a></li>",
+    DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>",
+    ShowFirstLast = true, //该值指定是否显示第一页和最后一页分页导航按钮。
+    FirstPageText = "首页",
+    NextPageText = "下一页",
+    PrevPageText = "上一页",
+    LastPageText = "末页",
+    HorizontalAlign = "left", //获取或设置分页控件水平对齐方式。
+    ShowMorePagerItems = true, //指定是否显示更多页按钮
+    ShowNumericPagerItems = true,//指定是否显示数字页索引按钮及更多页按钮。
+})
+
+
+
+
+
+

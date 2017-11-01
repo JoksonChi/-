@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Contents";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+@model Post
+<div class="chi_m_page">
+@{
+    <div class="chi_m_page_t">
+
+                <ul>
+                    <li>
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <div class="fl">
+                            <a><img src="@Model.User.Image" width="40" height="40" /></a> 
+                        </div>
+                        <div class="fr">
+                            <a class="chi_m_licon_a">
+                                <h5>
+                                    @{
+                                        var status = "";
+                                        if (Model.Status == 1)
+                                        {
+                                            status = "精华贴";
+                                        }
+                                        else
+                                        {
+                                            status = "普通贴";
+                                        }
+                                        <p1>
+                                            @status
+                                        </p1>
+                                    }
+                                    &nbsp;&nbsp;&nbsp;
+                                    <p1>@Model.Title</p1>
+ 
+                                </h5>
+                                <p><font>@Model.User.Name</font><font>@Model.CreateTime</font><font>@Model.SysInfo</font></p>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+    </div>
+    <!--/chi_m_page_t-->
+
+    <div class="chi_m_page_m">@Model.Details</div>
+    <!--/chi_m_page_m-->
+}
+    <div class="chi_m_page_b">
+        @using (Html.BeginForm("Contents", "Post", FormMethod.Get))
+        {
+            var praiserecord = ViewData["praiserecord"];
+            <div id="praisearticles">
+                @Html.Partial("_PraiseRecord", praiserecord)
+            </div>
+            if (Session["loginuser"] != null)
+            {
+                <div class="topic-option">
+                    <div class="pull-right">
+                        <a class="praise record">点赞</a>
+                        <a class="praise collection">收藏</a>
+                        <a class="do-reward btn btn-sm btn-success" data-pid="0">
+                            <i class="fa fa-database"></i>&nbsp;打赏
+                        </a>
+                        <a class="do-reply btn btn-sm btn-primary" data-pid="0">
+                            <i class="fa fa-pencil"></i>
+                            &nbsp;回复
+                        </a>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+            }
+
+            var reply = ViewData["reply"];
+            <div id="articles">
+                @Html.Partial("_reply", reply)
+            </div>
+        }
+        
+        
+    </div>
+    <!--/chi_m_page_b-->
+
+    <div class="chi_m_page_write">
+        @*@{
+            if (Session["loginuser"] != null)
+            {
+                <div class="row" style="margin: 0px;">
+                    <div id="post-edit"></div>
+
+                    <button id="post-submit" type="submit" class="btn btn-sm btn-primary submit-btn ux-w-100" style="margin-top:15px;">提交</button>
+                </div>
+            }
+            else
+            {
+                <div class="bod-t-1 ux-w-100 pa-t-15 ma-b-30 text-center pa-t-45 pa-b-60">
+                    <span><a href="/User/Login">登陆</a>后可回复</span>
+                </div>
+            }
+        }*@
+       
+    </div>
+
+</div>
+

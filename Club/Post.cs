@@ -17,9 +17,9 @@ namespace Club
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Post()
         {
+            this.AllReply = new HashSet<AllReply>();
             this.Collection = new HashSet<Collection>();
             this.PraiseRecord = new HashSet<PraiseRecord>();
-            this.Reply = new HashSet<Reply>();
         }
     
         public int Id { get; set; }
@@ -35,13 +35,13 @@ namespace Club
         public Nullable<int> Status { get; set; }
         public bool IsAbort { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AllReply> AllReply { get; set; }
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Collection> Collection { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PraiseRecord> PraiseRecord { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reply> Reply { get; set; }
     }
 }

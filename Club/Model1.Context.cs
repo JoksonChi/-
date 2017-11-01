@@ -25,12 +25,12 @@ namespace Club
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AllReply> AllReply { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Collection> Collection { get; set; }
         public virtual DbSet<Level> Level { get; set; }
         public virtual DbSet<Post> Post { get; set; }
         public virtual DbSet<PraiseRecord> PraiseRecord { get; set; }
-        public virtual DbSet<Reply> Reply { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<User> User { get; set; }
     }

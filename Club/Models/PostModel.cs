@@ -17,6 +17,10 @@ namespace Club.Models
         /// <summary>
         /// 发帖用户
         /// </summary>
+        public int UserID { get; set; }
+        /// <summary>
+        /// 发帖用户
+        /// </summary>
         public string UserName { get; set; }
 
         /// <summary>
@@ -37,12 +41,20 @@ namespace Club.Models
         /// <summary>
         /// 回复
         /// </summary>
-        public int Reply{ get; set; }
+        public int PostReply{ get; set; }
 
         /// <summary>
         /// 发帖用户头像
         /// </summary>
         public string UserImage { get; set; }
+        /// <summary>
+        /// 类别id
+        /// </summary>
+        public int categoryid { get; set; }
+
+        
+
+ 
     }
    
 }

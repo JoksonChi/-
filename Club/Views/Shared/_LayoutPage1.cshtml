@@ -1,0 +1,189 @@
+﻿@{
+    Layout = null;
+    var currentController = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var currentAction = ViewContext.RouteData.Values["action"].ToString().ToLower();
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title>BBS-Chi</title>
+    <meta http-equiv="description" content="论坛，自由讨论，开放，同城交友！" />
+    <meta http-equiv="keywords" content="BBS Chi 论坛" />
+    <meta name="author" content="Mr.Chi">
+    <meta name="copyright" content="Mr.Chi">
+    <link rel="icon" href="~/Assets/images/驰.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/Assets/images/驰.png" type="image/x-icon" />
+    <link href="~/Assets/styles/main.css" rel="stylesheet" media="all" />
+    <link href="~/Assets/styles/base.css" rel="stylesheet" media="all" />
+    <link href="~/Assets/styles/base.css-v=2.2.0.css" rel="stylesheet" />
+    <script src="~/Assets/scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="~/Assets/scripts/js.js" type="text/javascript"></script>
+    <style type="text/css">
+        /********** footer ************/
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="chi_left">
+            <a href="#">6789Club</a>
+            <div class="chi_input">
+                <input name="" placeholder="请输入您需要查找的内容 …" type="text" />
+                <!--头左-->
+            </div>
+        </div>
+        <div class="chi_right">
+        @{
+            var user = (User)Session["loginuser"];
+            if (user != null)
+            {
+
+                <a href="/user/user" title="@user.Name" style="padding: 15px 5px; line-height: 30px;">
+                    <img id="my-avatar" class="img-circle profile-small-avatar" src="@user.Image" />
+                    <span class="mobile-hide">@user.Name</span>
+                </a>
+                    <a class="dropdown-toggle" href="/Notice"><img src="/Assets/images/pic_01.gif" /></a>
+
+                                <a href="/user/login">
+                                    <img src="/Assets/images/pic_02.gif" />
+                                </a>
+
+            }
+            else
+            {
+                <div class="user-login">
+                    <a class="btn btn-primary btn-xs" href="/user/login">
+                        登录
+                    </a>
+                </div>
+            }
+        } 
+        </div>
+        <!--头右-->
+    </div>
+    <!--/header-->
+    <div class="chi_nav"><a href="/Home/Index">主页</a>/<a href="#">用户资料</a></div>
+    <div class="main">
+        <div class="chi_m_top">
+            <div class="fl"><img src="/Assets/images/logo.png" height="60" width="60" /></div>
+            <div class="fr">
+                <h3>6789俱乐部·因趣而生</h3>
+                <p>定期为有相同兴趣的人提供活动，励志做常州最好玩的俱乐部，加入6789俱乐部，我们带你吃喝玩乐玩转生活，趣味无穷。</p>
+            </div>
+        </div>
+        <div class="h_auto">
+            <div class="chi_m_left">
+                <div class="chi_m_lnav"> 
+
+                        <ul class='@(currentController == "home"  ? " active open":"")'>
+
+                                <li @((currentAction == "indexreply" && currentController == "home") ? "class=active" : "class")><a href="/home/indexreply">最新回复 </a></li>
+                                <li @((currentAction == "index" && currentController == "home") ? "class=active" : "class")><a href="/home/index">最新发表 </a></li>
+                                <li @((currentAction == "indexessence" && currentController == "home") ? "class=active" : "class")><a href="/home/indexessence">只看精华 </a></li>
+                            </ul>
+
+
+                </div>
+                
+                    @RenderBody()
+                
+            </div>
+            <!--left-->
+            <div class="chi_m_right">
+                <div class="chi_m_r_operat"><a href="/Post/NewPost">发&nbsp;帖</a><a href="#">投&nbsp;稿</a></div>
+                <!--1-->
+
+                <div class="chi_m_r_type">
+                    <ul class='@(currentController == "home"  ? " active open":"on")'>
+                        <li @((currentAction == "index" && currentController == "home") ? "class=active" : "class")><a href="/home/index">全部 </a></li>
+                        <li @((currentAction == "category1" && currentController == "home") ? "class=active" : "class")><a href="/home/category1" class="on">龙城茶座 </a></li>
+                        <li @((currentAction == "category2" && currentController == "home") ? "class=active" : "class")><a href="/home/category2">摄影帮 </a></li>
+                        <li @((currentAction == "category3" && currentController == "home") ? "class=active" : "class")><a href="/home/category3">站务管理 </a></li>
+                        <li @((currentAction == "category4" && currentController == "home") ? "class=active" : "class")><a href="/home/category4">亲子帮 </a></li>
+                    </ul>
+
+
+
+                    @*@{
+                        var category = ViewBag.Category;
+                        foreach (var item in category)
+                        {
+
+                            <a href="/home/category?Id=@item.Id" name="@item.Id">@item.Name</a>
+                        }
+                    }*@
+
+                </div>
+                <!--1-->
+
+                <div class="chi_m_r_staty">
+                    <div class="chi_m_r_statyt"># 本站统计</div>
+                    <div class="chi_m_r_statyc">
+                        <ul>
+                            <li>
+                                <img src="/Assets/images/2.png" height="25" width="30" />
+                                <p>805</p>
+                                <p>会员</p>
+                            </li>
+                            <li>
+                                <img src="/Assets/images/1.png" height="25" width="30" />
+                                <p>578</p>
+                                <p>帖子</p>
+                            </li>
+                            <li>
+                                <img src="/Assets/images/3.png" height="29" width="30" />
+                                <p>17</p>
+                                <p>精华</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--1-->
+
+                <div class="chi_m_r_list">
+                    <div class="chi_m_r_listt"># 本站薅羊毛榜</div>
+                    <div class="chi_m_r_listc"><a href="#" class="on">薅羊毛财富榜</a><a href="#">薅羊毛劳模</a></div>
+                </div>
+                <!--1-->
+
+                <div class="chi_m_r_neig">
+                    <div class="chi_m_r_neigt"># 本站邻居</div>
+                    <div class="chi_m_r_neigc">
+                        <a href="http://bbs.hualongxiang.com/">化龙巷</a>
+                        <a href="http://www.taocz.com/html/about.shtml">淘常州</a>
+                        <a href="http://www.cztv.tv/">中吴网</a>
+                        <a href="http://www.cz001.com.cn/">常州网</a>
+                        <a href="https://www.aliyun.com/?utm_medium=text&utm_source=bdbrand&utm_campaign=bdbrand&utm_content=se_32492">阿里云</a>
+                    </div>
+                </div>
+                <!--1-->
+
+            </div>
+            <!--right-->
+        </div>
+        <div class="footer">
+            <p class="fl">Copyright © 2016 江苏嬉戏谷科技有限公司</p>
+            <p class="fr">苏ICP备13055054号-2.</p>
+        </div>
+    </div>
+    <!--/main-->
+    
+    <!--/footer-->
+    <script src="/Areas/Admin/Assets/scripts/dialog.js"></script>
+    <script type="text/javascript">
+        //提示框
+        $(document).ready(function() {
+                if ('@TempData["Msg"]' != '') {
+                    var d = dialog({
+                        title: '提示',
+                        width: '20em',
+                        content: '@TempData["Msg"]'
+                    });
+                    d.show();
+                }
+            });
+    </script>
+</body>
+</html>

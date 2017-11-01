@@ -1,12 +1,11 @@
 ﻿
 @{
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
     ViewBag.Title = "Index";
     var loginUser = (User)ViewBag.LoginUser;
 }
 @using Webdiyer.WebControls.Mvc;
 @model IPagedList<Club.Models.ListPostModel>
-<div class="chi_m_left">
-    <div class="chi_m_lnav"> <a href="#" class="on">最新回复</a> <a href="#">最新发表</a> <a href="#">只看精华</a> </div>
     <div class="chi_m_licon">
         @{
             foreach (var item in Model)
@@ -14,18 +13,18 @@
                 <ul>
                     <li>
                         <div class="fl">
-                            <a href="/Home/details"><img src="@item.UserImage" width="40" height="40" /></a> <a href="/Home/details" class="chi_m_licon_a">
+                            <a href="/post/contents?Id=@item.Id"><img src="@item.UserImage" width="40" height="40" /></a> <a href="/post/contents?Id=@item.Id" class="chi_m_licon_a">
                                 <h5><p1></p1>@item.Title<p1>@item.Status</p1></h5>
                                 <p><font>@item.UserName</font><font>@item.CreateTime</font></p>
                             </a>
                         </div>
                         <div class="fr">
-                            <a href="/Home/details">
+                            <a href="/post/contents?Id=@item.Id">
                                 <img src="~/Assets/images/icon_01.png" width="40" height="13" />
                                 <p>@item.ViewCount</p>
-                            </a><a href="/Home/details">
+                            </a><a href="/post/contents?Id=@item.Id">
                                 <img src="~/Assets/images/icon_02.png" width="40" height="13" />
-                                <p>@item.Reply</p>
+                                <p>@item.PostReply</p>
                             </a>
                         </div>
                     </li>
@@ -34,80 +33,20 @@
         }
     </div>
     @Html.Pager(Model, new PagerOptions()
-       {
-           ContainerTagName = "ul", //分页标签
-           CssClass = "pagination", //分页样式
-           PagerItemTemplate = "<li class=\"paginate_button\">{0}</li>",
-           CurrentPagerItemTemplate = "<li class=\"paginate_button active\"><a href='#'>{0}</a></li>",
-           DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>",
-           ShowFirstLast = true, //该值指定是否显示第一页和最后一页分页导航按钮。
-           FirstPageText = "首页",
-           NextPageText = "下一页",
-           PrevPageText = "上一页",
-           LastPageText = "末页",
-           HorizontalAlign = "left", //获取或设置分页控件水平对齐方式。
-           ShowMorePagerItems = true, //指定是否显示更多页按钮
-           ShowNumericPagerItems = true,//指定是否显示数字页索引按钮及更多页按钮。
-       })
-</div>
-<!--left-->
-<div class="chi_m_right">
-    <div class="chi_m_r_operat"><a href="/Post/NewPost">发&nbsp;帖</a><a href="#">投&nbsp;稿</a></div>
-    <!--1-->
+{
+    ContainerTagName = "ul", //分页标签
+    CssClass = "pagination", //分页样式
+    PagerItemTemplate = "<li class=\"paginate_button\">{0}</li>",
+    CurrentPagerItemTemplate = "<li class=\"paginate_button active\"><a href='#'>{0}</a></li>",
+    DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>",
+    ShowFirstLast = true, //该值指定是否显示第一页和最后一页分页导航按钮。
+    FirstPageText = "首页",
+    NextPageText = "下一页",
+    PrevPageText = "上一页",
+    LastPageText = "末页",
+    HorizontalAlign = "left", //获取或设置分页控件水平对齐方式。
+    ShowMorePagerItems = true, //指定是否显示更多页按钮
+    ShowNumericPagerItems = true,//指定是否显示数字页索引按钮及更多页按钮。
+})
 
-    <div class="chi_m_r_type">
-        <a href="#" class="on">全部</a>
-        @{
-            var category = ViewBag.Category;
-            foreach (var item in category)
-            {
 
-                <a name="@item.Id">@item.Name</a>
-            }
-        }
-
-    </div>
-    <!--1-->
-
-    <div class="chi_m_r_staty">
-        <div class="chi_m_r_statyt"># 本站统计</div>
-        <div class="chi_m_r_statyc">
-            <ul>
-                <li>
-                    <img src="/Assets/images//2.png" height="25" width="30" />
-                    <p>654</p>
-                    <p>会员</p>
-                </li>
-                <li>
-                    <img src="/Assets/images/1.png" height="25" width="30" />
-                    <p>578</p>
-                    <p>帖子</p>
-                </li>
-                <li>
-                    <img src="/Assets/images/3.png" height="29" width="30" />
-                    <p>17</p>
-                    <p>精华</p>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!--1-->
-
-    <div class="chi_m_r_list">
-        <div class="chi_m_r_listt"># 本站薅羊毛榜</div>
-        <div class="chi_m_r_listc"><a href="#" class="on">薅羊毛财富榜</a><a href="#">薅羊毛劳模</a></div>
-    </div>
-    <!--1-->
-
-    <div class="chi_m_r_neig">
-        <div class="chi_m_r_neigt"># 本站邻居</div>
-        <div class="chi_m_r_neigc"><a href="http://bbs.hualongxiang.com/">化龙巷</a>
-        <a href="http://www.taocz.com/html/about.shtml">淘常州</a>
-        <a href="http://www.cztv.tv/">中吴网</a>
-        <a href="http://www.cz001.com.cn/">常州网</a>
-        <a href="https://www.aliyun.com/?utm_medium=text&utm_source=bdbrand&utm_campaign=bdbrand&utm_content=se_32492">阿里云</a> </div>
-    </div>
-    <!--1-->
-
-</div>
-<!--right-->

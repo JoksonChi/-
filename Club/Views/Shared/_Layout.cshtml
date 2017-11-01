@@ -13,8 +13,8 @@
     <meta name="copyright" content="Mr.Chi" />
     <link rel="icon" href="~/Assets/images/驰.png" type="image/x-icon" />
     <link rel="shortcut icon" href="~/Assets/images/驰.png" type="image/x-icon" />
-    <link href="~/Assets/styles/main.css" rel="stylesheet" media="all" />
     <link href="~/Assets/styles/base.css" rel="stylesheet" media="all" />
+    <link href="~/Assets/styles/main.css" rel="stylesheet" media="all" />
     <link href="~/Assets/styles/font-awesome/css/font-awesome.css-v=4.3.0.css" rel="stylesheet" />
     <link href=~/Assets/styles/jquery.fancybox.css-v =2.1.5.css" rel="stylesheet" />
     <link href="~/Assets/styles/animate.css" rel="stylesheet" />
@@ -90,40 +90,10 @@
     <div class="header">
         <div class="chi_left">
             <a href="#">6789Club</a>
-            <div class="chi_input">
-                <input name="" placeholder="请输入您需要查找的内容 …" type="text" />
-                <!--头左-->
-            </div>
+               
         </div>
 
         <div class="chi_right">
-
-            @{
-                var user = (User)Session["loginuser"];
-                if (user != null)
-                {
-
-                    <a href="/user/user" title="@user.Name" style="padding: 15px 5px; line-height: 30px;">
-                        <img id="my-avatar" class="img-circle profile-small-avatar" src="@user.Image" />
-                        <span class="mobile-hide">@user.Name</span>
-                    </a>
-                                <a class="dropdown-toggle" href="/Notice"><img src="/Assets/images/pic_01.gif" /></a>
-
-                                <a href="/user/login">
-                                    <img src="/Assets/images/pic_02.gif" />
-                                </a>
-
-                }
-                else
-                {
-                    <div class="user-login">
-                        <a class="btn btn-primary btn-xs" href="/user/login">
-                            登录
-                        </a>
-                    </div>
-                }
-            }
-
 
         </div>
 
@@ -161,77 +131,7 @@
                     });
                     d.show();
                 }
-            //用户注册界面进行新密码验证
-            $("#error").hide();
-            $("#againPassword").bind("input propertychange", function () {
-                var Password = $("#Password").val();
-                var againPassword = $("#againPassword").val();
-                if (Password != againPassword) {
-                    $("#error").show();
-                }
-                else {
-                    $("#error").hide();
-                }
             });
-            //type分页样式变换
-            $('.ma_lt').click(function () {
-                    var _s = $(this).index();
-                    $(".ul_s ul").eq(_s).show().siblings().hide();
-                    $(this).addClass('bg-c-blue f-c-white').siblings().removeClass('bg-c-blue f-c-white');
-                });
-            $('.ma_rm').click(function () {
-                    $(this).addClass('ma_rm_on').siblings().removeClass('ma_rm_on');
-                });
-            $('.ma_rmb').click(function () {
-                    $(this).addClass('ma_rmb_on').siblings().removeClass('ma_rmb_on');
-            });
-            //浏览帖子内容
-            $('.browse').click(function () {
-                var postid = $(this).attr('data-cid');
-                var url = "/Post/Browse?postid=" + postid;
-                window.location.href = url;
-            });
-            //搜索
-            $("#keyword").bind("input propertychange", function () { //监听input输入框内容
-                var keyword = $(this).val();
-                search(1, keyword);
-            });
-            //帖子类型
-            $('.ma_rm').click(function () {
-                var typeid = $(this).attr('name');
-                search(3,typeid);
-            });
-        })
-        //ajax提交
-        function search(key,value) {
-            $.ajax({
-                type: "get",
-                url: "/Post/Index",
-                async: true,
-                data: "key=" + key + "&value=" + value,
-                success: function (response) {
-                    $('#articles').html(response);
-                }
-            });
-        }
-        //根据浏览器宽度自适应
-        window.onresize = function () {
-            var width = $(window).width();
-            if (width <= 973) {
-                $("#all").addClass("ux-w-100");
-            }
-            else {
-                $("#all").removeClass("ux-w-100");
-            }
-            if (width <= 550)
-            {
-                $('.search-main').hide();
-            }
-            else
-            {
-                $('.search-main').show();
-            }
-        }
     </script>
 </body>
 </html>

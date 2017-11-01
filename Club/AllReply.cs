@@ -12,7 +12,7 @@ namespace Club
     using System;
     using System.Collections.Generic;
     
-    public partial class Reply
+    public partial class AllReply
     {
         public int Id { get; set; }
         public int PostId { get; set; }

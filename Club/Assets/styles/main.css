@@ -55,6 +55,7 @@ body {
         width: 170px;
         color: #666;
         outline: none;
+        margin-bottom:50px;
     }
 
         .chi_input input:focus {
@@ -325,16 +326,16 @@ body {
             border: 1px #ccc solid;
         }
 
-        .chi_m_r_type a.on {
+        /*.chi_m_r_type a.on {
             background: #4B9DBD;
             border: 1px #4B9DBD solid;
             color: #fff;
-        }
+        }*/
 
-            .chi_m_r_type a.on:hover {
+            /*.chi_m_r_type a.on:hover {
                 background: #257494;
                 border: 1px #257494 solid;
-            }
+            }*/
 
 .chi_m_r_staty {
     margin: 15px;

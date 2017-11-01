@@ -76,16 +76,11 @@ namespace Club.Areas.Admin.Controllers
         public ActionResult Edit()
         {
             var Id = Request["Id"].ToInt();
-
             using (var db = new ClubEntities())
             {
                 var user = db.User.Include(a => a.Level).FirstOrDefault(a => a.Id == Id);
-
-
                 var selectItems = new List<SelectListItem>();
-
                 var levels = db.Level.ToList();
-
                 foreach (var level in levels)
                 {
                     var selectItem = new SelectListItem();
@@ -97,9 +92,7 @@ namespace Club.Areas.Admin.Controllers
                     }
                     selectItems.Add(selectItem);
                 }
-
                 ViewBag.SeletItems = selectItems;
-
                 if (user == null)
                     user = new User();
                 return View(user);

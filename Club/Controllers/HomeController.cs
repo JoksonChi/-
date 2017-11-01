@@ -96,22 +96,16 @@ namespace Club.Controllers
             //return Content("ok");
             #endregion
 
-
+            //最新发表
             var loginUser = (User)Session["loginUser"];
             ViewBag.LoginUser = loginUser;
-            int pageSize = 2;
+            int pageSize = 5;
             var pageIndex = Request["pageIndex"].ToInt(1);
             var kw = Request["kw"];
-            //if (string.IsNullOrEmpty(indexStr))
-            //{
-            //    indexStr = "1";
-            //}
-            //var pageIndex = int.Parse(indexStr);
             IPagedList<Club.Models.ListPostModel> pt;
             var cookies = new HttpCookie("User");
             using (var db = new ClubEntities())
             {
-
                 var postList = new List<ListPostModel>();
                 var list = db.Post.OrderByDescending(a => a.Id).Include(a => a.User).Include(a => a.Category).Where(a => a.IsFeatured == true).ToList();
                 var category = db.Category.Where(a => a.IsAbort == false).ToList();
@@ -124,7 +118,7 @@ namespace Club.Controllers
                     postModel.UserName = item.User.Name;
                     postModel.CreateTime = item.CreateTime;
                     postModel.ViewCount = item.ViewCount;
-                    postModel.Reply = item.ReplyCount;
+                    postModel.PostReply = item.ReplyCount;
                     if (item.Status == 1)
                     {
                         postModel.Status = "【精】";
@@ -134,66 +128,265 @@ namespace Club.Controllers
                         postModel.Status = "";
                     }
                     postModel.UserImage = item.User.Image;
-
                     postList.Add(postModel);
 
                 }
-                pt = postList.OrderBy(a => a.Id).ToPagedList(pageIndex: pageIndex, pageSize: pageSize);
+                pt = postList.OrderByDescending(a => a.CreateTime).ToPagedList(pageIndex: pageIndex, pageSize: pageSize);
+                return View(pt);
+            }
+
+        }
+        //只看精华
+        public ActionResult IndexEssence()
+        {
+            var loginUser = (User)Session["loginUser"];
+            ViewBag.LoginUser = loginUser;
+            int pageSize = 5;
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            var kw = Request["kw"];
+            IPagedList<Club.Models.ListPostModel> pt;
+            var cookies = new HttpCookie("User");
+            using (var db = new ClubEntities())
+            {
+                var postList = new List<ListPostModel>();
+                var list = db.Post.OrderByDescending(a => a.Id).Include(a => a.User).Include(a => a.Category).Where(a => a.Status == 1).ToList();
+                var category = db.Category.Where(a => a.IsAbort == false).ToList();
+                ViewBag.category = category;
+                foreach (var item in list)
+                {
+                    var postModel = new ListPostModel();
+                    postModel.Id = item.Id;
+                    postModel.Title = item.Title;
+                    postModel.UserName = item.User.Name;
+                    postModel.CreateTime = item.CreateTime;
+                    postModel.ViewCount = item.ViewCount;
+                    postModel.PostReply = item.ReplyCount;
+                    if (item.Status == 1)
+                    {
+                        postModel.Status = "【精】";
+                    }
+                    else
+                    {
+                        postModel.Status = "";
+                    }
+                    postModel.UserImage = item.User.Image;
+                    postList.Add(postModel);
+
+                }
+                pt = postList.OrderByDescending(a => a.CreateTime).ToPagedList(pageIndex: pageIndex, pageSize: pageSize);
+                return View(pt);
+            }
+
+        }
+
+        public ActionResult IndexReply()
+        {
+            //最新回复
+            var loginUser = (User)Session["loginUser"];
+            ViewBag.LoginUser = loginUser;
+            int pageSize = 5;
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            var kw = Request["kw"];
+            IPagedList<Club.Models.ReplyModel> pt;
+            var cookies = new HttpCookie("User");
+            using (var db = new ClubEntities())
+            {
+                var replyList = new List<ReplyModel>();
+                var list = db.AllReply.OrderByDescending(a => a.Id).Include(a => a.User).Include(a => a.Post).ToList();
+                var category = db.Category.Where(a => a.IsAbort == false).ToList();
+                ViewBag.category = category;
+                foreach (var item in list)
+                {
+                    var replyModel = new ReplyModel();
+                    replyModel.postid = item.Post.Id;
+                    replyModel.Title = item.Post.Title;
+                    replyModel.UserName = item.User.Name;
+                    replyModel.CreateTime = item.Post.CreateTime;
+                    replyModel.ViewCount = item.Post.ViewCount;
+                    replyModel.Reply = item.Post.ReplyCount;
+                    if (item.Post.Status == 1)
+                    {
+                        replyModel.Status = "【精】";
+                    }
+                    else
+                    {
+                        replyModel.Status = "";
+                    }
+                    replyModel.UserImage = item.User.Image;
+                    replyList.Add(replyModel);
+
+                }
+                pt = replyList.OrderByDescending(a => a.responseTime).ToPagedList(pageIndex: pageIndex, pageSize: pageSize);
+                return View(pt);
+            }
+
+        }
+
+        public ActionResult Category1()
+        {
+            var loginUser = (User)Session["loginUser"];
+            ViewBag.LoginUser = loginUser;
+            int pageSize = 5;
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            var kw = Request["kw"];
+            IPagedList<Club.Models.ListPostModel> pt;
+            var cookies = new HttpCookie("User");
+            using (var db = new ClubEntities())
+            {
+                var postList = new List<ListPostModel>();
+                var list = db.Post.OrderByDescending(a => a.Id).Include(a => a.User).Include(a => a.Category).Where(a => a.CategoryId == 1).ToList();
+                var category = db.Category.Where(a => a.IsAbort == false).ToList();
+                ViewBag.category = category;
+                foreach (var item in list)
+                {
+                    var postModel = new ListPostModel();
+                    postModel.Id = item.Id;
+                    postModel.Title = item.Title;
+                    postModel.UserName = item.User.Name;
+                    postModel.CreateTime = item.CreateTime;
+                    postModel.ViewCount = item.ViewCount;
+                    postModel.PostReply = item.ReplyCount;
+                    if (item.Status == 1)
+                    {
+                        postModel.Status = "【精】";
+                    }
+                    else
+                    {
+                        postModel.Status = "";
+                    }
+                    postModel.UserImage = item.User.Image;
+                    postList.Add(postModel);
+
+                }
+                pt = postList.OrderByDescending(a => a.CreateTime).ToPagedList(pageIndex: pageIndex, pageSize: pageSize);
+                return View(pt);
+            }
+
+        }
+        public ActionResult Category2()
+        {
+            var loginUser = (User)Session["loginUser"];
+            ViewBag.LoginUser = loginUser;
+            int pageSize = 5;
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            var kw = Request["kw"];
+            IPagedList<Club.Models.ListPostModel> pt;
+            var cookies = new HttpCookie("User");
+            using (var db = new ClubEntities())
+            {
+                var postList = new List<ListPostModel>();
+                var list = db.Post.OrderByDescending(a => a.Id).Include(a => a.User).Include(a => a.Category).Where(a => a.CategoryId == 2).ToList();
+                var category = db.Category.Where(a => a.IsAbort == false).ToList();
+                ViewBag.category = category;
+                foreach (var item in list)
+                {
+                    var postModel = new ListPostModel();
+                    postModel.Id = item.Id;
+                    postModel.Title = item.Title;
+                    postModel.UserName = item.User.Name;
+                    postModel.CreateTime = item.CreateTime;
+                    postModel.ViewCount = item.ViewCount;
+                    postModel.PostReply = item.ReplyCount;
+                    if (item.Status == 1)
+                    {
+                        postModel.Status = "【精】";
+                    }
+                    else
+                    {
+                        postModel.Status = "";
+                    }
+                    postModel.UserImage = item.User.Image;
+                    postList.Add(postModel);
+
+                }
+                pt = postList.OrderByDescending(a => a.CreateTime).ToPagedList(pageIndex: pageIndex, pageSize: pageSize);
+                return View(pt);
+            }
+
+        }
+        public ActionResult Category3()
+        {
+            var loginUser = (User)Session["loginUser"];
+            ViewBag.LoginUser = loginUser;
+            int pageSize = 5;
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            var kw = Request["kw"];
+            IPagedList<Club.Models.ListPostModel> pt;
+            var cookies = new HttpCookie("User");
+            using (var db = new ClubEntities())
+            {
+                var postList = new List<ListPostModel>();
+                var list = db.Post.OrderByDescending(a => a.Id).Include(a => a.User).Include(a => a.Category).Where(a => a.CategoryId == 3).ToList();
+                var category = db.Category.Where(a => a.IsAbort == false).ToList();
+                ViewBag.category = category;
+                foreach (var item in list)
+                {
+                    var postModel = new ListPostModel();
+                    postModel.Id = item.Id;
+                    postModel.Title = item.Title;
+                    postModel.UserName = item.User.Name;
+                    postModel.CreateTime = item.CreateTime;
+                    postModel.ViewCount = item.ViewCount;
+                    postModel.PostReply = item.ReplyCount;
+                    if (item.Status == 1)
+                    {
+                        postModel.Status = "【精】";
+                    }
+                    else
+                    {
+                        postModel.Status = "";
+                    }
+                    postModel.UserImage = item.User.Image;
+                    postList.Add(postModel);
+
+                }
+                pt = postList.OrderByDescending(a => a.CreateTime).ToPagedList(pageIndex: pageIndex, pageSize: pageSize);
+                return View(pt);
+            }
+
+        }
+        public ActionResult Category4()
+        {
+            var loginUser = (User)Session["loginUser"];
+            ViewBag.LoginUser = loginUser;
+            int pageSize = 5;
+            var pageIndex = Request["pageIndex"].ToInt(1);
+            var kw = Request["kw"];
+            IPagedList<Club.Models.ListPostModel> pt;
+            var cookies = new HttpCookie("User");
+            using (var db = new ClubEntities())
+            {
+                var postList = new List<ListPostModel>();
+                var list = db.Post.OrderByDescending(a => a.Id).Include(a => a.User).Include(a => a.Category).Where(a => a.CategoryId == 4).ToList();
+                var category = db.Category.Where(a => a.IsAbort == false).ToList();
+                ViewBag.category = category;
+                foreach (var item in list)
+                {
+                    var postModel = new ListPostModel();
+                    postModel.Id = item.Id;
+                    postModel.Title = item.Title;
+                    postModel.UserName = item.User.Name;
+                    postModel.CreateTime = item.CreateTime;
+                    postModel.ViewCount = item.ViewCount;
+                    postModel.PostReply = item.ReplyCount;
+                    if (item.Status == 1)
+                    {
+                        postModel.Status = "【精】";
+                    }
+                    else
+                    {
+                        postModel.Status = "";
+                    }
+                    postModel.UserImage = item.User.Image;
+                    postList.Add(postModel);
+
+                }
+                pt = postList.OrderByDescending(a => a.CreateTime).ToPagedList(pageIndex: pageIndex, pageSize: pageSize);
                 return View(pt);
             }
 
         }
 
 
-        public ActionResult details()
-        {
-
-            var postid = Request["postid"].ToInt();
-            if (postid != 0)
-            {
-                using (var db = new ClubEntities())
-                {
-                    var post = db.Post.Include(a => a.User).Include(a => a.Type).FirstOrDefault(a => a.id == postid);
-                    var user = db.User.OrderByDescending(a => a.id).Include(a => a.Level).ToList();
-                    ViewBag.User = user;
-                    //查询赞帖子的用户
-                    var praiserecord = db.PraiseRecord.OrderByDescending(a => a.id).Include(a => a.User).ToList();
-                    ViewBag.praiserecord = praiserecord;
-                    var listpraiserecord = new List<PraiserecordModel>();
-                    foreach (var item in praiserecord)
-                    {
-                        var praiserecordmodel = new PraiserecordModel();
-                        praiserecordmodel.postid = item.Postid;
-                        praiserecordmodel.userid = item.Userid;
-                        praiserecordmodel.username = item.User.Name;
-                        praiserecordmodel.userimage = item.User.Image;
-                        praiserecordmodel.time = item.CreateTime;
-                        listpraiserecord.Add(praiserecordmodel);
-                    }
-                    ViewData["praiserecord"] = listpraiserecord;
-                    //查询收藏帖子的用户
-                    var collection = db.Collection.OrderByDescending(a => a.id).Include(a => a.User).ToList();
-                    ViewBag.collection = collection;
-                    //查询帖子回复的信息
-                    var reply = db.Reply.OrderByDescending(a => a.id).Include(a => a.User).Where(a => a.Postid == postid).ToList();
-                    var listreply = new List<ReplyModel>();
-                    foreach (var item in reply)
-                    {
-                        var replyModel = new ReplyModel();
-                        replyModel.postid = item.Postid;
-                        replyModel.userid = item.Userid;
-                        replyModel.username = item.User.Name;
-                        replyModel.userlevel = item.User.Level.Name;
-                        replyModel.userimage = item.User.Image;
-                        replyModel.content = item.Contents;
-                        replyModel.recoverytime = item.Recoverytime;
-                        listreply.Add(replyModel);
-                    }
-                    ViewData["reply"] = listreply;
-                    return View(post);
-                }
-            }
-            return View();
-        }
     }
 }

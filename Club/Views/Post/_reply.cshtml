@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+@model List<Club.Models.ReplyModel>
+@{
+    foreach (var item in Model)
+    {
+
+
+        <ul>
+            <li class="chi_m_pageb_li">
+                <div class="chi_m_pageb_t">
+                    <div class="fl"><a href="#"><img src="@item.userimage" width="20" height="20" /></a><a href="#">@item.username</a></div>
+                    <div class="fr">@item.responseTime</div>
+                </div>
+                <div class="chi_m_pageb_m">@Html.Raw(@item.contents.ToString())</div>
+                <a href="#" class="chi_m_pageb_b"><img src="/Assets/images/enter.gif" width="25" height="20" /></a>
+            </li>
+        </ul>
+}
+}
+
+
+
+
+
+
+
